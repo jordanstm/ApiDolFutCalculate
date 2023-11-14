@@ -1,0 +1,26 @@
+{
+  "name": "apidolfutcalculate",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Api de apoio ao indicador de dolar futuro ",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node src/index.js",
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jordanstm/ApiDolFutCalculate.git"
+  },
+  "author": "Erick Jordan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jordanstm/ApiDolFutCalculate/issues"
+  },
+  "homepage": "https://github.com/jordanstm/ApiDolFutCalculate#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}

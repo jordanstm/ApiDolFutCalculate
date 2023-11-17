@@ -6,10 +6,12 @@ import {buscaJuros,ValorFechamentoDolarAnterior} from './crawler/Crawler.js';
  function Marred(val,Mult){
      return Math.ceil(val/Mult)* Mult
  }
+
    export async function CalculaValores(){
+    const Dat = new Date();
     const Euller = 2.71828;
     const Juros = await buscaJuros().then(r=>{ return r});
-    const DiasVenc = getUtilDays();
+    const DiasVenc = getUtilDays(Dat.getMonth(),Dat.getFullYear());
     const Tempo = (1/252) * DiasVenc;
     const Potencia = Juros * Tempo;
     const Taxa =  Math.pow(Euller,Potencia);
@@ -19,7 +21,7 @@ import {buscaJuros,ValorFechamentoDolarAnterior} from './crawler/Crawler.js';
     const Maxima = DolFutFECHAMENTO + DELTA;
     const Minima = DolFutFECHAMENTO - DELTA;
 
-    dados=[];
+    let dados=[];
     dados.push({Maxima:Maxima,Minima:Minima}) 
   }
   export default CalculaValores

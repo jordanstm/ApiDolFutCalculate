@@ -15,13 +15,17 @@ import {buscaJuros,ValorFechamentoDolarAnterior} from './crawler/Crawler.js';
     const Tempo = (1/252) * DiasVenc;
     const Potencia = Juros * Tempo;
     const Taxa =  Math.pow(Euller,Potencia);
-    const DolFutFECHAMENTO = ValorFechamentoDolarAnterior().then((Result)=>{ return Result})
+    let DolFutFECHAMENTO =0;
+    await ValorFechamentoDolarAnterior().then(
+      (Result)=>{ DolFutFECHAMENTO= Result})
     const DolComTaxa =  DolFutFECHAMENTO * Taxa;
-    const DELTA = Marred(DolComTaxa- DolFutFECHAMENTO,0.5);
-    const Maxima = DolFutFECHAMENTO + DELTA;
-    const Minima = DolFutFECHAMENTO - DELTA;
+    const DELTA = DolComTaxa- DolFutFECHAMENTO; //falta ajustar a função MArred
+    const Abertura = DolFutFECHAMENTO + DELTA;
+    const Minima = Abertura - DELTA;
+    const Maxima = Abertura + DELTA;
 
     let dados=[];
-    dados.push({Maxima:Maxima,Minima:Minima}) 
+    dados.push({Fechaento:DolFutFECHAMENTO,Abertura:Abertura,Minima:Minima,Maxima:Maxima}) 
+     return dados;
   }
   export default CalculaValores

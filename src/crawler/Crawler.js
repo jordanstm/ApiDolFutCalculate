@@ -4,7 +4,7 @@ import StealthPlugin  from 'puppeteer-extra-plugin-stealth';
 import * as  cheerio from 'cheerio'
 import axios from 'axios'
  const url ='https://www.bcb.gov.br/'//Taxa de juros Brasil
- const urlDolarAntes='https://br.investing.com/currencies/usd-brl-historical-data'
+ const urlDolarAntes='https://www.dolarhoje.net.br/dolar-comercial/'
 
  var Browser = undefined;
  async  function PuppeterLaunch(){
@@ -61,27 +61,39 @@ import axios from 'axios'
 
  export async function ValorFechamentoDolarAnterior(){
         let DolAntes =  0;
+        let Valores=[];
          if(Browser === undefined){
-          await PuppeterLaunch() 
+         return  await  PuppeterLaunch() 
           .then(async(page)=>{
   
 
               
-               await page.goto(urlDolarAntes);//<div class="trading-hours_value__1aTHe" data-test="prev-close-value">4,862</div>
-        
-                let elements = await page.$$('div.trading-hours_value__1aTHe').innerHTML.replace(',','.');
-                return parseFloat(elements)
+               await page.goto(urlDolarAntes);
+         
+            
+                  {
+                   
+                    let Val1 = await  page.evaluate(()=>{
+                      let table = Array.from(document.querySelectorAll('table tbody tr td'));
+                       console.log(table.map(ln=>ln.innerHTML));
+                         return table.map(ln=>ln.innerText)[17]// pega posicao 17 no array gerado para dai extrair o valo do dolar dia anterior
+
+                      
+                    })
+                    console.log('o Valor da linha da tab é',Val1)
+                    let dol  = Val1.replace('R$','').replace(',','.');
+                    DolAntes = dol.trim();
+                     console.log('o Valor da varial DolAntes é',DolAntes);
+                  }
+                    
+               //  }
+                return parseFloat(DolAntes)
           })
 
 
          }
 
-         else 
-         {
-              let page = await Browser.newPage();
-              await page.goto(urlDolarAntes);
-              let elements = await page.$$('span.text-2xl');
-         }
+     
         
  }
  export default buscaJuros;
